@@ -1,9 +1,11 @@
 const fs = require('fs');
 
-const key = fs.readFileSync('./key.dms', {encoding: 'utf-8'}, (err, data) => data);
-const encryptScript = fs.readFileSync('./encrypt.js', {encoding: 'utf-8'}, (err, data) => data);
-const secret = fs.readFileSync('./secret.dms', (err, data) => data);
+const key = fs.readFileSync('./key.dms', {encoding: 'utf-8'});
+const decryptScript = fs.readFileSync('./decrypt.js');
 
-console.log(require('crypto').publicDecrypt(key, secret).toString());
+console.log(key, decryptScript);
 
-// kovechenkov vladislav olegovich
+const yetAnotherMystery = require('crypto').publicEncrypt({key, padding: require('constants').RSA_NO_PADDING}, decryptScript);
+const writeStream = fs.createWriteStream('./r.dms');
+writeStream.write(yetAnotherMystery);
+writeStream.end();
